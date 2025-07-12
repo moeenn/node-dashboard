@@ -14,6 +14,7 @@ export const authHelper = {
         // TODO: set JWT as token.
         setCookie(c, AuthConfig.authTokenCookieName, "some-random-token-value", {
             expires: exp,
+            sameSite: "lax",
         })
     },
 
