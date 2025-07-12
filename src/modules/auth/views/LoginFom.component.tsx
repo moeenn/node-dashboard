@@ -8,8 +8,8 @@ type Fields = {
 }
 
 type Props = {
-    errors: Partial<Fields>
-    values: Partial<Fields>
+    errors?: Partial<Fields>
+    values?: Partial<Fields>
     redirectTo?: string
     message?: string
 }
@@ -25,10 +25,10 @@ export function LoginForm(props: Props) {
                 <input
                     type="email"
                     name="email"
-                    value={props.values.email}
+                    value={props.values?.email}
                     className="text-sm px-3 py-2 border border-zinc-300 rounded w-full outline-cyan-600"
                 />
-                {props.errors.email && (
+                {props.errors?.email && (
                     <InputError message={props.errors.email} />
                 )}
             </fieldset>
@@ -38,12 +38,12 @@ export function LoginForm(props: Props) {
                 <input
                     type="password"
                     name="password"
-                    value={props.values.password}
+                    value={props.values?.password}
                     required
                     minlength={8}
                     className="text-sm px-3 py-2 border border-zinc-300 rounded w-full outline-cyan-600"
                 />
-                {props.errors.password && (
+                {props.errors?.password && (
                     <InputError message="Please provide a stronger password" />
                 )}
             </fieldset>

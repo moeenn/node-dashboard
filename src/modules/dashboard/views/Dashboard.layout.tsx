@@ -9,9 +9,7 @@ type Props = {
 export function DashboardLayout(props: Props) {
     return (
         <BaseLayout title={"Dashboard - " + props.title}>
-            <div className="container mx-auto p-4">
-                {props.children}
-            </div>
+            <div className="container mx-auto p-4">{props.children}</div>
         </BaseLayout>
     )
 }

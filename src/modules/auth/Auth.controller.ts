@@ -1,24 +1,18 @@
 import type { Context } from "hono"
-import { LoginPage } from "./views/pages/LoginPage.js"
+import { LoginPage } from "./views/Login.page.js"
 import { LoginForm, ForgotPasswordForm } from "./Auth.forms.js"
-import { deleteCookie, getCookie, setCookie } from "hono/cookie"
-import { ForgotPasswordPage } from "./views/pages/ForgotPasswordPage.js"
-import { ForgotPasswordForm as ForgotPasswordFormElement } from "./views/components/ForgotPasswordForm.js"
-import { LoginForm as LoginFormElement } from "./views/components/LoginFom.js"
-
-const AUTH_COOKIE_NAME = "auth.user"
+import { ForgotPasswordPage } from "./views/ForgotPassword.page.js"
+import { ForgotPasswordForm as ForgotPasswordFormElement } from "./views/ForgotPasswordForm.component.js"
+import { LoginForm as LoginFormElement } from "./views/LoginFom.component.js"
+import { deleteAuthCookie, setAuthCookie } from "src/middleware/middleware.js"
 
 export const AuthController = {
-    async loginPage(c: Context) {
-        if (getCookie(c, AUTH_COOKIE_NAME) != undefined) {
-            return c.redirect("/")
-        }
+    async getLoginPage(c: Context) {
+        const content = LoginPage()
+        return c.html(content)
+    },
 
-        if (c.req.method === "GET") {
-            const content = LoginPage()
-            return c.html(content)
-        }
-
+    async processLogin(c: Context) {
         const loginForm = new LoginForm(await c.req.formData())
         const errors = loginForm.validate()
         if (errors) {
@@ -30,38 +24,25 @@ export const AuthController = {
         }
 
         // TODO: perform actual login.
-        const exp = new Date()
-        exp.setHours(exp.getHours() + 1)
-
-        setCookie(c, AUTH_COOKIE_NAME, "some-random-token-value", {
-            expires: exp,
-        })
-
-        const message = "Login successful"
+        setAuthCookie(c)
         const content = LoginFormElement({
             redirectTo: "/dashboard",
-            errors: {},
-            values: {},
-            message,
+            message: "Login successful",
         })
         return c.html(content)
     },
 
     logout(c: Context) {
-        deleteCookie(c, AUTH_COOKIE_NAME)
+        deleteAuthCookie(c)
         return c.redirect("/")
     },
 
-    async forgotPasswordPage(c: Context) {
-        if (getCookie(c, AUTH_COOKIE_NAME) != undefined) {
-            return c.redirect("/")
-        }
+    getForgotPasswordPage(c: Context) {
+        const content = ForgotPasswordPage()
+        return c.html(content)
+    },
 
-        if (c.req.method === "GET") {
-            const content = ForgotPasswordPage()
-            return c.html(content)
-        }
-
+    async processForgotPassword(c: Context) {
         const form = new ForgotPasswordForm(await c.req.formData())
         const errors = form.validate()
         if (errors) {
@@ -72,13 +53,10 @@ export const AuthController = {
             return c.html(content)
         }
 
-        const message =
-            "Your request has been submitted. You will receive an email shortly with instructions to reset your password."
-        const content = ForgotPasswordFormElement({
-            message,
-            errors: {},
-            values: {},
-        })
+        const message = "Your request has been submitted. You will receive an email shortly" +
+            " with instructions to reset your password."
+
+        const content = ForgotPasswordFormElement({ message })
         return c.html(content)
     },
 } as const

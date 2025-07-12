@@ -1,9 +1,6 @@
-import { DashboardLayout } from "./layouts/DashboardLayout.js"
+import { DashboardLayout } from "./Dashboard.layout.js"
 
-type Props = {
-}
-
-export function DashboardHomePage(props: Props) {
+export function DashboardHomePage() {
     return (
         <DashboardLayout title="Home">
             <h1>Welcome to the dashboard</h1>

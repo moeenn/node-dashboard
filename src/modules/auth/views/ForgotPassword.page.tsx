@@ -1,5 +1,5 @@
-import { ForgotPasswordForm } from "../components/ForgotPasswordForm.js"
-import { AuthLayout } from "../layouts/AuthLayout.js"
+import { ForgotPasswordForm } from "./ForgotPasswordForm.component.js"
+import { AuthLayout } from "./Auth.layout.js"
 
 type Fields = {
     email: string

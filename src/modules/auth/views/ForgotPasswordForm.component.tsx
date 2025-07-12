@@ -8,8 +8,8 @@ type Fields = {
 
 type Props = {
     message?: string
-    errors: Partial<Fields>
-    values: Partial<Fields>
+    errors?: Partial<Fields>
+    values?: Partial<Fields>
 }
 
 export function ForgotPasswordForm(props: Props) {
@@ -23,11 +23,11 @@ export function ForgotPasswordForm(props: Props) {
                 <input
                     type="email"
                     name="email"
-                    value={props.values.email}
+                    value={props.values?.email}
                     required
                     className="text-sm px-3 py-2 border border-zinc-300 rounded w-full outline-cyan-600"
                 />
-                {props.errors.email && (
+                {props.errors?.email && (
                     <InputError message={props.errors.email} />
                 )}
             </fieldset>

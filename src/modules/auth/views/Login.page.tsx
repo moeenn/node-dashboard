@@ -1,5 +1,5 @@
-import { LoginForm } from "../components/LoginFom.js"
-import { AuthLayout } from "../layouts/AuthLayout.js"
+import { LoginForm } from "./LoginFom.component.js"
+import { AuthLayout } from "./Auth.layout.js"
 
 type Fields = {
     email: string
