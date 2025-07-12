@@ -2,9 +2,10 @@ import { serve } from "@hono/node-server"
 import { Hono } from "hono"
 import { serveStatic } from "@hono/node-server/serve-static"
 import { pino } from "pino"
-import { AuthController } from "./controller/AuthController.js"
 import { Config } from "./config.js"
-import { PublicController } from "./controller/PublicController.js"
+import { newAuthRouter } from "./modules/auth/Auth.router.js"
+import { newPublicRouter } from "./modules/public/Public.router.js"
+import { newDashboardRouter } from "./modules/dashboard/Dashboard.router.js"
 
 function main() {
     const config = new Config()
@@ -13,11 +14,14 @@ function main() {
     const app = new Hono()
     app.use("/public/*", serveStatic({ root: "./" }))
 
-    // register all controllers here.
-    const publicController = new PublicController()
-    const authController = new AuthController({ logger })
-    publicController.registerRoutes(app)
-    authController.registerRoutes(app)
+    const publicRouter = newPublicRouter()
+    app.route("/", publicRouter)
+
+    const authRouter = newAuthRouter()
+    app.route("/auth", authRouter)
+
+    const dashboardRouter = newDashboardRouter()
+    app.route("/dashboard", dashboardRouter)
 
     // start the server.
     serve({ fetch: app.fetch, port: config.server.port }, () => {

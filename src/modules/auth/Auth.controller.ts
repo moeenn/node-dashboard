@@ -1,34 +1,16 @@
-import type { Context, Hono } from "hono"
-import { LoginPage } from "../views/pages/LoginPage.js"
-import type { Logger } from "pino"
-import { LoginForm, ForgotPasswordForm } from "./AuthControllerForms.js"
+import type { Context } from "hono"
+import { LoginPage } from "./views/pages/LoginPage.js"
+import { LoginForm, ForgotPasswordForm } from "./Auth.forms.js"
 import { deleteCookie, getCookie, setCookie } from "hono/cookie"
-import { ForgotPasswordPage } from "../views/pages/ForgotPasswordPage.js"
-import { ForgotPasswordForm as ForgotPasswordFormElement } from "../views/components/ForgotPasswordForm.js"
-import { LoginForm as LoginFormElement } from "../views/components/LoginFom.js"
+import { ForgotPasswordPage } from "./views/pages/ForgotPasswordPage.js"
+import { ForgotPasswordForm as ForgotPasswordFormElement } from "./views/components/ForgotPasswordForm.js"
+import { LoginForm as LoginFormElement } from "./views/components/LoginFom.js"
 
-type AuthControllerArgs = {
-    logger: Logger
-}
+const AUTH_COOKIE_NAME = "auth.user"
 
-export class AuthController {
-    logger: Logger
-    #authCookieName = "auth.user"
-
-    constructor(args: AuthControllerArgs) {
-        this.logger = args.logger
-    }
-
-    public registerRoutes(app: Hono) {
-        app.get("/auth/login", (c) => this.loginPage(c))
-        app.post("/auth/login", (c) => this.loginPage(c))
-        app.get("/auth/logout", (c) => this.logout(c))
-        app.get("/auth/forgot-password", (c) => this.forgotPasswordPage(c))
-        app.post("/auth/forgot-password", (c) => this.forgotPasswordPage(c))
-    }
-
-    public async loginPage(c: Context) {
-        if (getCookie(c, this.#authCookieName) != undefined) {
+export const AuthController = {
+    async loginPage(c: Context) {
+        if (getCookie(c, AUTH_COOKIE_NAME) != undefined) {
             return c.redirect("/")
         }
 
@@ -51,27 +33,27 @@ export class AuthController {
         const exp = new Date()
         exp.setHours(exp.getHours() + 1)
 
-        setCookie(c, this.#authCookieName, "some-random-token-value", {
+        setCookie(c, AUTH_COOKIE_NAME, "some-random-token-value", {
             expires: exp,
         })
 
         const message = "Login successful"
         const content = LoginFormElement({
-            redirect: true,
+            redirectTo: "/dashboard",
             errors: {},
             values: {},
             message,
         })
         return c.html(content)
-    }
+    },
 
-    public logout(c: Context) {
-        deleteCookie(c, this.#authCookieName)
+    logout(c: Context) {
+        deleteCookie(c, AUTH_COOKIE_NAME)
         return c.redirect("/")
-    }
+    },
 
-    public async forgotPasswordPage(c: Context) {
-        if (getCookie(c, this.#authCookieName) != undefined) {
+    async forgotPasswordPage(c: Context) {
+        if (getCookie(c, AUTH_COOKIE_NAME) != undefined) {
             return c.redirect("/")
         }
 
@@ -98,5 +80,5 @@ export class AuthController {
             values: {},
         })
         return c.html(content)
-    }
-}
+    },
+} as const

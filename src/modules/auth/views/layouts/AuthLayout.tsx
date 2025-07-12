@@ -1,5 +1,5 @@
 import type { JSX } from "hono/jsx/jsx-runtime"
-import { BaseLayout } from "./BaseLayout.js"
+import { BaseLayout } from "#views/layouts/BaseLayout.js"
 
 type Props = {
     title: string

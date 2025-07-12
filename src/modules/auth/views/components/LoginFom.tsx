@@ -1,5 +1,6 @@
-import { InputError } from "./InputError.js"
-import { MessageBox } from "./MessageBox.js"
+import { InputError } from "#views/components/InputError.js"
+import { Label } from "#views/components/Label.js"
+import { MessageBox } from "#views/components/MessageBox.js"
 
 type Fields = {
     email: string
@@ -9,7 +10,7 @@ type Fields = {
 type Props = {
     errors: Partial<Fields>
     values: Partial<Fields>
-    redirect?: boolean
+    redirectTo?: string
     message?: string
 }
 
@@ -20,9 +21,7 @@ export function LoginForm(props: Props) {
             {props.message && <MessageBox message={props.message} />}
 
             <fieldset className="mb-6">
-                <label htmlFor="email" className="text-xs text-gray-800 mb-1">
-                    Email
-                </label>
+                <Label htmlFor="email" text="Email" />
                 <input
                     type="email"
                     name="email"
@@ -35,12 +34,7 @@ export function LoginForm(props: Props) {
             </fieldset>
 
             <fieldset className="mb-6">
-                <label
-                    htmlFor="password"
-                    className="text-xs text-gray-800 mb-1"
-                >
-                    Password
-                </label>
+                <Label htmlFor="password" text="Password" />
                 <input
                     type="password"
                     name="password"
@@ -63,10 +57,10 @@ export function LoginForm(props: Props) {
                 </a>
             </fieldset>
 
-            {props.redirect && (
+            {props.redirectTo && (
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: "setTimeout(() => { window.location.href = '/' }, 1_500)",
+                        __html: `setTimeout(() => { window.location.href = '${props.redirectTo}' }, 1_500)`,
                     }}
                 ></script>
             )}

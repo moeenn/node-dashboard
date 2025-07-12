@@ -1,5 +1,5 @@
-import { Navbar } from "../components/Navbar.js"
-import { BaseLayout } from "../layouts/BaseLayout.js"
+import { Navbar } from "#views/components/Navbar.js"
+import { BaseLayout } from "#views/layouts/BaseLayout.js"
 
 type Props = {
     isLoggedIn: boolean

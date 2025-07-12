@@ -1,5 +1,6 @@
-import { InputError } from "./InputError.js"
-import { MessageBox } from "./MessageBox.js"
+import { InputError } from "#views/components/InputError.js"
+import { Label } from "#views/components/Label.js"
+import { MessageBox } from "#views/components/MessageBox.js"
 
 type Fields = {
     email: string
@@ -18,9 +19,7 @@ export function ForgotPasswordForm(props: Props) {
             {props.message && <MessageBox message={props.message} />}
 
             <fieldset className="mb-6">
-                <label htmlFor="email" className="text-xs text-gray-800 mb-1">
-                    Email
-                </label>
+                <Label htmlFor="email" text="Email" />
                 <input
                     type="email"
                     name="email"
