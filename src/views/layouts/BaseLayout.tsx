@@ -16,6 +16,7 @@ export function BaseLayout(props: Props) {
                 />
                 <link rel="stylesheet" href="/public/css/styles.css" />
                 <script src="/public/js/htmx.min.js"></script>
+                {/* <script type="module" src="/public/js/turbo.min.js"></script> */}
                 <title>{props.title}</title>
             </head>
             <body className="bg-slate-50 text-gray-900">{props.children}</body>

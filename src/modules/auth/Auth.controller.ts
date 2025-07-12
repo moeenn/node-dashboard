@@ -4,7 +4,8 @@ import { LoginForm, ForgotPasswordForm } from "./Auth.forms.js"
 import { ForgotPasswordPage } from "./views/ForgotPassword.page.js"
 import { ForgotPasswordForm as ForgotPasswordFormElement } from "./views/ForgotPasswordForm.component.js"
 import { LoginForm as LoginFormElement } from "./views/LoginFom.component.js"
-import { deleteAuthCookie, setAuthCookie } from "src/middleware/middleware.js"
+import { authHelper } from "#src/lib/middleware.js"
+import { htmx } from "#src/lib/htmx.js"
 
 export const AuthController = {
     async getLoginPage(c: Context) {
@@ -23,17 +24,13 @@ export const AuthController = {
             return c.html(content)
         }
 
-        // TODO: perform actual login.
-        setAuthCookie(c)
-        const content = LoginFormElement({
-            redirectTo: "/dashboard",
-            message: "Login successful",
-        })
-        return c.html(content)
+        // TODO: implement auth.service.
+        authHelper.setAuthCookie(c)
+        return htmx.redirect(c, "/dashboard")
     },
 
     logout(c: Context) {
-        deleteAuthCookie(c)
+        authHelper.deleteAuthCookie(c)
         return c.redirect("/")
     },
 
@@ -53,7 +50,8 @@ export const AuthController = {
             return c.html(content)
         }
 
-        const message = "Your request has been submitted. You will receive an email shortly" +
+        const message =
+            "Your request has been submitted. You will receive an email shortly" +
             " with instructions to reset your password."
 
         const content = ForgotPasswordFormElement({ message })

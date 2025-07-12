@@ -1,6 +1,6 @@
 import { Hono } from "hono"
 import { AuthController } from "./Auth.controller.js"
-import { middleware as m } from "src/middleware/middleware.js"
+import { middleware as m } from "#src/lib/middleware.js"
 
 export function newAuthRouter(): Hono {
     const authRouter = new Hono()

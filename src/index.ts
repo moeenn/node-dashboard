@@ -5,21 +5,15 @@ import { pino } from "pino"
 import { newAuthRouter } from "./modules/auth/Auth.router.js"
 import { newPublicRouter } from "./modules/public/Public.router.js"
 import { newDashboardRouter } from "./modules/dashboard/Dashboard.router.js"
-import { env } from "./lib/env.js"
-
-export const ServerConfig = {
-    host: env.readString("SERVER_HOST", "localhost"),
-    port: env.readNumber("SERVER_PORT", 3000),
-    url: function () {
-        return `${this.host}:${this.port}`
-    },
-} as const
+import { ServerConfig } from "./lib/config.js"
+import { trimTrailingSlash } from "hono/trailing-slash"
 
 function main() {
     const logger = pino()
     const app = new Hono()
+    app.use("/public/*", serveStatic({ root: "./" }))
+    app.use(trimTrailingSlash())
     {
-        app.use("/public/*", serveStatic({ root: "./" }))
         app.route("/", newPublicRouter())
         app.route("/auth", newAuthRouter())
         app.route("/dashboard", newDashboardRouter())

@@ -13,8 +13,8 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "#views/*": [
-        "./src/views/*"
+      "#src/*": [
+        "./src/*"
       ]
     }
   },

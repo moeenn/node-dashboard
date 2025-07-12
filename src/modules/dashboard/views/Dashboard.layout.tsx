@@ -1,4 +1,4 @@
-import { BaseLayout } from "#views/layouts/BaseLayout.js"
+import { BaseLayout } from "#src/views/layouts/BaseLayout.js"
 import type { JSX } from "hono/jsx/jsx-runtime"
 
 type Props = {

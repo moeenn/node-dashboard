@@ -1,6 +1,6 @@
-import { InputError } from "#views/components/InputError.js"
-import { Label } from "#views/components/Label.js"
-import { MessageBox } from "#views/components/MessageBox.js"
+import { InputError } from "#src/views/components/InputError.js"
+import { Label } from "#src/views/components/Label.js"
+import { MessageBox } from "#src/views/components/MessageBox.js"
 
 type Fields = {
     email: string

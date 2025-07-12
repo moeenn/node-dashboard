@@ -1,6 +1,6 @@
-import { InputError } from "#views/components/InputError.js"
-import { Label } from "#views/components/Label.js"
-import { MessageBox } from "#views/components/MessageBox.js"
+import { InputError } from "#src/views/components/InputError.js"
+import { Label } from "#src/views/components/Label.js"
+import { MessageBox } from "#src/views/components/MessageBox.js"
 
 type Fields = {
     email: string
@@ -10,7 +10,6 @@ type Fields = {
 type Props = {
     errors?: Partial<Fields>
     values?: Partial<Fields>
-    redirectTo?: string
     message?: string
 }
 
@@ -56,14 +55,6 @@ export function LoginForm(props: Props) {
                     Forgot password
                 </a>
             </fieldset>
-
-            {props.redirectTo && (
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `setTimeout(() => { window.location.href = '${props.redirectTo}' }, 1_500)`,
-                    }}
-                ></script>
-            )}
 
             <input
                 type="submit"

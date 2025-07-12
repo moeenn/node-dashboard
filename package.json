@@ -4,7 +4,11 @@
   "scripts": {
     "dev": "concurrently 'npm run server:dev' 'npm run css:dev'",
     "server:dev": "tsx watch --env-file=.env src/index.ts",
-    "build": "rm -rvf ./dist && tsc && npm run css:build && cp -r ./public ./dist/",
+    "server:prod": "node dist/index.js",
+    "build": "tsc",
+    "remove:dist": "rm -rvf ./dist",
+    "copy:public": "cp -r ./public ./dist/",
+    "pkg": "npm run remove:dist && npm run build && npm run css:build && npm run copy:public",
     "start": "node dist/index.js",
     "css:dev": "npx @tailwindcss/cli -i ./src/views/styles/global.css -o ./public/css/styles.css --watch",
     "css:build": "npx @tailwindcss/cli -i ./src/views/styles/global.css -o ./public/css/styles.css --minify",
@@ -19,11 +23,10 @@
     "trailingComma": "all"
   },
   "imports": {
-    "#views/*": "./dist/views/*"
+    "#src/*": "./dist/*"
   },
   "dependencies": {
     "@hono/node-server": "^1.15.0",
-    "@tailwindcss/vite": "^4.1.11",
     "hono": "^4.8.4",
     "pino": "^9.7.0",
     "tailwindcss": "^4.1.11"
