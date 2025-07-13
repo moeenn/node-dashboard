@@ -12,7 +12,7 @@ type Props = {
 
 export function ForgotPasswordPage(props: Props = { errors: {}, values: {} }) {
     return (
-        <AuthLayout title="ForgotPassword">
+        <AuthLayout title="Forgot Password">
             <ForgotPasswordForm errors={props.errors} values={props.values} />
         </AuthLayout>
     )
